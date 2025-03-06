@@ -104,9 +104,17 @@ class MockRidesRepository extends RidesRepository {
   List<Ride> getRides(
       RidePreference preference, RidesFilter? filter, RideSortType? sortType) {
     var rides = _rides.where((ride) {
+      // Check if the ride has enough seats for the requested passengers
+      if (ride.availableSeats < preference.requestedSeats) {
+        return false;
+      }
+      
+      // Check for pet filter
       if (filter != null && filter.petAccepted && !ride.acceptPets) {
         return false;
       }
+      
+      // Check for matching locations
       return ride.departureLocation.name == preference.departure.name &&
           ride.arrivalLocation.name == preference.arrival.name;
     }).toList();
