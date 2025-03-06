@@ -6,6 +6,7 @@ import '../../model/ride/ride.dart';
 import '../../model/ride_pref/ride_pref.dart';
 import '../../service/rides_service.dart';
 import '../../theme/theme.dart';
+import '../../model/ride/ride_sort_type.dart';
 
 import 'widgets/rides_tile.dart';
 
@@ -24,8 +25,8 @@ class _RidesScreenState extends State<RidesScreen> {
   RidePreference currentPreference =
       fakeRidePrefs[0]; // TODO 1 :  We should get it from the service
 
-  List<Ride> get matchingRides =>
-      RidesService.instance.getRides(currentPreference, null);
+  List<Ride> get matchingRides => RidesService.instance
+      .getRides(currentPreference, null, RideSortType.departureTime);
 
   void onBackPressed() {
     Navigator.of(context).pop(); //  Back to the previous view

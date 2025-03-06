@@ -1,6 +1,7 @@
 import '../model/ride_pref/ride_pref.dart';
 import '../model/ride/ride.dart';
 import '../model/ride/ride_filter.dart';
+import '../model/ride/ride_sort_type.dart';
 import '../repository/rides_repository.dart';
 
 class RidesService {
@@ -19,12 +20,14 @@ class RidesService {
 
   static RidesService get instance {
     if (_instance == null) {
-      throw Exception("RidesService is not initialized. Call initialize() first.");
+      throw Exception(
+          "RidesService is not initialized. Call initialize() first.");
     }
     return _instance!;
   }
 
-  List<Ride> getRides(RidePreference preference, RidesFilter? filter) {
-    return repository.getRides(preference, filter);
+  List<Ride> getRides(
+      RidePreference preference, RidesFilter? filter, RideSortType? sortType) {
+    return repository.getRides(preference, filter, sortType);
   }
 }
