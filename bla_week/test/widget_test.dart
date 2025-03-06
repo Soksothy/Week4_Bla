@@ -7,10 +7,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:bla_week/main.dart';
+import 'package:bla_week/repository/mock/mock_rides_repository.dart';
+import 'package:bla_week/repository/mock/mock_ride_preferences_repository.dart';
+import 'package:bla_week/repository/mock/mock_locations_repository.dart';
+import 'package:bla_week/service/rides_service.dart';
+import 'package:bla_week/service/ride_prefs_service.dart';
+import 'package:bla_week/service/locations_service.dart';
 
 void main() {
+  setUp(() {
+    // Initialize all required services before each test
+    RidePrefService.initialize(MockRidePreferencesRepository());
+    LocationsService.initialize(MockLocationsRepository());
+    RidesService.initialize(MockRidesRepository());
+  });
+
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
