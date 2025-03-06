@@ -1,24 +1,30 @@
-import '/model/ride_pref/ride_pref.dart';
-
-import '../dummy_data/dummy_data.dart';
+import '../model/ride_pref/ride_pref.dart';
 import '../model/ride/ride.dart';
+import '../model/ride/ride_filter.dart';
+import '../repository/rides_repository.dart';
 
-////
-///   This service handles:
-///   - The list of available rides
-///
 class RidesService {
+  static RidesService? _instance;
+  final RidesRepository repository;
 
-  static List<Ride> availableRides = fakeRides;  
+  RidesService._internal(this.repository);
 
-
-  ///
-  ///  Return the relevant rides, given the passenger preferences
-  ///
-  static List<Ride> getRidesFor(RidePreference preferences) {
- 
-    // For now, just a test
-    return availableRides.where( (ride) => ride.departureLocation == preferences.departure && ride.arrivalLocation == preferences.arrival).toList();
+  static void initialize(RidesRepository repository) {
+    if (_instance == null) {
+      _instance = RidesService._internal(repository);
+    } else {
+      throw Exception("RidesService is already initialized.");
+    }
   }
- 
+
+  static RidesService get instance {
+    if (_instance == null) {
+      throw Exception("RidesService is not initialized. Call initialize() first.");
+    }
+    return _instance!;
+  }
+
+  List<Ride> getRides(RidePreference preference, RidesFilter? filter) {
+    return repository.getRides(preference, filter);
+  }
 }
